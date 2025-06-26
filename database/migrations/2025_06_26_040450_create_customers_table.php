@@ -19,9 +19,9 @@ return new class extends Migration {
             $table->string('phone');
             $table->string('email');
             $table->string('tax_id');
-            $table->string('payment_term');
+            $table->string('payment_terms');
             $table->decimal('credit_limit', 10, 2);
-            $table->decimal('credit_balance', 10, 2);
+            $table->decimal('current_balance', 10, 2);
             $table->decimal('latitude', 10, 2);
             $table->decimal('longitude', 10, 2);
             $table->string('address');

@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->integer('reorder_level');
             $table->string('unit');
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
