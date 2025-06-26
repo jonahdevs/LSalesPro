@@ -10,15 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('stock_reservations', function (Blueprint $table) {
+        Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('warehouse_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('reserved_by')->constrained('customers')->cascadeOnDelete();
-            $table->integer('quantity');
-            $table->enum('status', ['reserved', 'released'])->default('reserved');
-            $table->timestamp('expires_at');
+            $table->integer('quantity')->default(0);
             $table->timestamps();
+
+            $table->unique(['product_id', 'warehouse_id']);
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_reservations');
+        Schema::dropIfExists('stocks');
     }
 };

@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class StockReservation extends Model
+class Stock extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'product_id',
         'warehouse_id',
-        'reserved_by',
         'quantity',
-        'status',
-        'expires_at'
     ];
 
     // relationships
@@ -24,12 +24,8 @@ class StockReservation extends Model
 
     public function warehouse(): BelongsTo
     {
-        return $this->belongsTo(Warehouse::class);
-    }
 
-    public function reservedBy(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class, 'reserved_by');
+        return $this->belongsTo(Warehouse::class);
     }
 
 }

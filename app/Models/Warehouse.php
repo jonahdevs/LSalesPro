@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Warehouse extends Model
 {
@@ -11,6 +12,8 @@ class Warehouse extends Model
         "name",
         "type",
         "address",
+        "manager_email",
+        "phone",
         "capacity",
         "latitude",
         "longitude",
@@ -18,4 +21,18 @@ class Warehouse extends Model
     ];
 
     // relationships
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
+    }
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(StockReservation::class);
+    }
+
+    public function stock(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
 }

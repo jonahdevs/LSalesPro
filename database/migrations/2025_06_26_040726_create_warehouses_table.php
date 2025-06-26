@@ -16,10 +16,11 @@ return new class extends Migration {
             $table->string('name');
             $table->string('type');
             $table->string('address');
+            $table->string('manager_email');
+            $table->string('phone');
             $table->integer('capacity');
             $table->decimal('latitude', 10, 2);
-            $table->decimal('longtitude', 10, 2);
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->decimal('longitude', 10, 2);
             $table->timestamps();
         });
     }
