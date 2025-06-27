@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CustomersController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ProductsController;
@@ -59,4 +60,11 @@ Route::controller(NotificationsController::class)->group(function () {
     Route::get('notifications/{notification}', 'destroy')->name('notifications.destroy');
 });
 
+
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('dashboard/summary', 'summary')->name('dashboard.summary');
+    Route::get('dashboard/sales-perfomance', 'salesPerfomance')->name('dashboard.salesPerfomance');
+    Route::get('dashboard/inventory-status', 'inventoryStatus')->name('dashboard.inventoryStatus');
+    Route::get('dashboard/top-products', 'topProducts')->name('dashboard.topProducts');
+});
 

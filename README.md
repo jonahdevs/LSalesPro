@@ -1,61 +1,118 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LSalesPro - B2B Sales Order and Inventory Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive RESTful API for managing B2B sales workflows including orders, products, inventory, customers, notifications, and dashboard analytics.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📦 Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Backend:** Laravel 12
+- **Database:** MySQL
+- **Caching:** Redis
+- **Authentication:** Laravel Sanctum
+- **Notifications:** Laravel Notifications
+- **Testing:** Postman Collection
+- ** Roles and Permissions:** Spatie Roles and permissions
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+--- 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Setup Instructions
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clone the Reposity
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```Bash
+git clone https://github.com/jonahdevs/LSalesPro
+cd LSalesPro
+---
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Install Dependencies
+composer install
 
-### Premium Partners
+---
+copy .env.example .env
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+--- generate key
+php artisan key:generate
 
-## Contributing
+### 3. Set up database
+- Set your database values in the .env file
+DB_DATABASE=lsalespro
+DB_USERNAME=root
+DB_PASSWORD=secret
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Run Migrations and Seeder
+php artisan migrate
+php artisan db:seed
 
-## Code of Conduct
+### 5. Start the Server
+- you can start your server using one of the following
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+php artisan serve
+composer run dev
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# API MODULES
+### Authentication and Users
+- Post /api/auth/login ✅
+- Post /api/auth/register ✅
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Dashboard Management
+- GET /api/dashboard/summary  - 
+    -- total sales amount ✅
+    -- Number of orders ✅
+    -- Average order value ✅
+    -- inventory turnover rate 🔃
+- put /api/dashboard/sales-perfomance - Sales data with date filtering ✅
+- put /api/dashboard/inventory-status - Category-wise inventory summary ✅
+- put /api/dashboard/top-products - Top 5 selling products ✅
+
+### Customer Management
+- GET /api/customers  - it lists all customer and also it accept filters as query parameters ✅
+- GET /api/customers/{id} - single customer details ✅
+- POST /api/customers  - Create customer using form Data, ✅
+- PUT /api/customers/{id}  - Updates customer details using form Data, ✅
+- Delete /api/customers  - Soft Deletes our customer from the system ✅
+- POST /api/customers/{id}/orders  - Customer Order history ✅
+- Post /api/customers/{id}/credit-status - Customer credit limit and balance  ✅
+- Post /api/customers/map-data - Customer locations for mapping ✅
+
+
+## Inventory Management
+- GET /api/products  - it lists all products and also it accept filters as query parameters ✅
+- GET /api/products/{id} - single product details ✅
+- POST /api/products  - Create product using form Data, ✅
+- PUT/PATCH /api/products/{id}  - Updates product details using form Data, ✅
+- Delete /api/products  - Soft Deletes product from the system ✅
+- GET /api/products/{id}/stock  - Real time stock across warehouse ✅
+- POST /api/products/{id}/reserve - Reserve stock for order  ✅
+- POST /api/products/{id}/release - release reserved stock  ✅
+- GET /api/products/low-stock - products below reorder level ✅
+
+
+## Sales Order Management
+- GET /api/orders  - it lists all orders and also it accept filters as query parameters ✅
+- GET /api/orders/{id} - single order details ✅
+- POST /api/orders  - Create new order using form Data, ✅
+- PUT /api/orders/{id}/status  - Updates order status using form Data, ✅
+- GET /api/orders/invoice  - Soft Deletes order from the system 🔃
+- POST /api/orders/calculate-total  - Preview order calculations 🔃
+
+## Warehouse Management
+- GET /api/warehouses  - it lists all warehouses  ✅
+- GET /api/warehouses/{id}/inventory - Warehouse specific inventory ✅
+- POST /api/stock-transfers  - Transfer stock between warehouses ✅
+- GET /api/stock-transfer  - Transfer history ✅
+
+
+## Notifications Management
+- GET /api/notifications  - it lists all warehouses  ✅
+- put /api/notifications/{id}/read - Marks a specific notification as read ✅
+- put /ape/notifications/read-all  - Mark all as read ✅
+- DELETE /api/notifications/{id}  - Delete specific notification ✅
+- GET /api/notifications/unread-count  - Unread count ✅
+
+
+### Features
