@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CustomersController;
+use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\StockTransferController;
@@ -48,6 +49,14 @@ Route::controller(OrdersController::class)->group(function () {
     Route::put('orders/{order}/status', 'update')->name('orders.update');
     Route::get('orders/{order}/invoice', 'invoice')->name('orders.invoice');
     Route::post('orders/calculate-total', 'calculateTotal')->name('orders.calculate-total');
+});
+
+Route::controller(NotificationsController::class)->group(function () {
+    Route::get('notifications', 'index')->name('notifications.index');
+    Route::get('notifications/unread-count', 'unreadCount')->name('notifications.unreadCount');
+    Route::get('notifications/{notification}/read', 'markAsRead')->name('notifications.markAsRead');
+    Route::get('notifications/read-all', 'markAllAsRead')->name('notifications.markAllAsRead');
+    Route::get('notifications/{notification}', 'destroy')->name('notifications.destroy');
 });
 
 
