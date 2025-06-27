@@ -23,6 +23,12 @@ Route::controller(ProductsController::class)->prefix('products')->group(function
 });
 
 Route::apiResource('products', ProductsController::class);
+Route::controller(CustomersController::class)->group(function () {
+    Route::get('customers/{customer}/orders', 'orderHistory')->name('customer.orders');
+    Route::get('customers/{customer}/credit-status', 'creditStatus')->name('customer.credit-status');
+    Route::get('customers/map-data', 'mapData')->name('customer.map-data');
+});
+
 Route::apiResource('customers', CustomersController::class);
 
 Route::controller(WarehousesController::class)->group(function () {

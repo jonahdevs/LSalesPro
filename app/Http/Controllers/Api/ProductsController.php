@@ -15,16 +15,65 @@ use App\Models\Product;
 use App\Models\StockReservation;
 use App\Models\Warehouse;
 use App\Traits\HttpResponses;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
     use HttpResponses;
 
-    public function index()
+    public function index(Request $request)
     {
+        $filters = $request->only(['search', 'category', 'min_price', 'in_stock', 'warehouse', 'sort_by']);
+        $query = Product::with('category.parent');
+
+        $query = $this->advancedFiltering($query, $filters);
+        $products = $query->paginate($request->get('per_page', 10));
+
         $products = Product::with('category.parent')->paginate(10);
         return ProductsResource::collection($products);
+    }
+
+    protected function advancedFiltering($query, $filters)
+    {
+        // fill text search
+        $query->when(isset($filters['search']), function (Builder $query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        })
+            // category filter
+            ->when($filters['category'] ?? null, fn($q, $categoryId) =>
+                $q->where('category_id', $categoryId))
+
+            // Min price
+            ->when($filters['min_price'] ?? null, fn($q, $min) =>
+                $q->where('price', '>=', $min))
+
+            // Max price
+            ->when($filters['max_price'] ?? null, fn($q, $max) =>
+                $q->where('price', '<=', $max))
+
+            // In-stock products only
+            ->when(isset($filters['in_stock']) && filter_var($filters['in_stock'], FILTER_VALIDATE_BOOLEAN), function ($q) {
+                $q->whereHas('stock', fn($q) => $q->where('quantity', '>', 0));
+            })
+
+            ->when($filters['warehouse'] ?? null, function ($q, $warehouseId) {
+                $q->whereHas('stock', fn($q) =>
+                    $q->where('warehouse_id', $warehouseId));
+            });
+
+        $sortBy = $filters['sort_by'] ?? 'created_at';
+        $sortOrder = $filters['sort_order'] ?? 'desc';
+        $allowedSorts = ['name', 'price', 'created_at'];
+
+        if (in_array($sortBy, $allowedSorts)) {
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        return $query;
     }
 
     public function store(StoreProductRequest $request)

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Store\StoreCustomerRequest;
 use App\Http\Requests\Api\Update\UpdateCustomerRequest;
+use App\Http\Resources\Api\CustomerMapData;
+use App\Http\Resources\Api\customerOrdersResource;
 use App\Http\Resources\Api\CustomersResource;
 use App\Models\Customer;
 use App\Models\Territory;
@@ -92,5 +94,37 @@ class CustomersController extends Controller
         }
 
         return $this->success(null, 'Customer deleted successfully!');
+    }
+
+    public function orderHistory(Customer $customer)
+    {
+        $customer->load('orders.items');
+
+        return new customerOrdersResource($customer);
+    }
+
+    public function creditStatus(Customer $customer)
+    {
+        $totalUsed = $customer->orders()
+            ->whereIn('status', ['pending', 'confirmed', 'processing'])
+            ->sum('total');
+
+        return $this->success([
+            'customer_id' => $customer->id,
+            'credit_limit' => $customer->credit_limit,
+            'used_credit' => $totalUsed,
+            'available_credit' => $customer->credit_limit - $totalUsed,
+        ], null, 200);
+    }
+
+    public function mapData()
+    {
+        $customers = Customer::select('id', 'name', 'latitude', 'longitude', 'territory_id')
+            ->with('territory')
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->get();
+
+        return CustomerMapData::collection($customers);
     }
 }

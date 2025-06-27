@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Territory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class CustomerSeeder extends Seeder
@@ -28,6 +29,9 @@ class CustomerSeeder extends Seeder
                 'slug' => Str::slug($territory, '-'),
             ]);
         }
+
+        // 2. Get all territory IDs
+        $territoryIds = Territory::pluck('id')->toArray();
 
         $customers = [
             [
@@ -62,8 +66,9 @@ class CustomerSeeder extends Seeder
             ]
         ];
 
-        foreach ($customers as $customer) {
-            Customer::create($customer);
+        foreach ($customers as $data) {
+            $data['territory_id'] = Arr::random($territoryIds);
+            Customer::create($data);
         }
     }
 }

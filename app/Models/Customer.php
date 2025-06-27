@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
@@ -28,11 +29,16 @@ class Customer extends Model
     // relationships
     public function territory(): BelongsTo
     {
-        return $this->belongsTo(Territory::class);
+        return $this->belongsTo(Territory::class, 'territory_id');
     }
 
     public function getAvailableCreditAttribute(): float
     {
         return $this->credit_limit - $this->current_balance;
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

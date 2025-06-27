@@ -38,7 +38,7 @@ class OrderService
             $orderNumber = LeyscoHelpers::generateOrderNumber();
 
             $order = Order::create([
-                'customer_id' => $customer->id,
+                'customer_id' => 1,
                 'order_number' => $orderNumber,
                 'subtotal' => $totals['subtotal'],
                 'discount' => $totals['discount'],
