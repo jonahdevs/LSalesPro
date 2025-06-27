@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('stock_transfers', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
-            $table->string('reference');
+            $table->string('reference')->nullable();
             $table->text('remarks')->nullable();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->foreignId('from_warehouse_id')->constrained('warehouses')->cascadeOnDelete();

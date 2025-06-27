@@ -35,4 +35,9 @@ class Warehouse extends Model
     {
         return $this->hasMany(Stock::class);
     }
+
+    public function totalStockedQuantity()
+    {
+        return $this->stocks()->sum("quantity");
+    }
 }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Store\StoreProductRequest;
-use App\Http\Requests\Update\UpdateProductRequest;
+
+use App\Http\Requests\Api\Store\StoreProductRequest;
+use App\Http\Requests\Api\Update\UpdateProductRequest;
+use App\Http\Resources\Api\LowStockProductResource;
 use App\Http\Resources\Api\ProductsResource;
-use App\Http\Resources\LowStockProductResource;
-use App\Http\Resources\ProductStockResource;
+
+use App\Http\Resources\Api\ProductStockResource;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\StockReservation;

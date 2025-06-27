@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Store\StoreCustomerRequest;
-use App\Http\Requests\Update\UpdateCustomerRequest;
-use App\Http\Resources\CustomersResource;
+use App\Http\Requests\Api\Store\StoreCustomerRequest;
+use App\Http\Requests\Api\Update\UpdateCustomerRequest;
+use App\Http\Resources\Api\CustomersResource;
 use App\Models\Customer;
 use App\Models\Territory;
 use App\Traits\HttpResponses;

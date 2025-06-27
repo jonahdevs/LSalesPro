@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Update;
+namespace App\Http\Requests\Api\Store;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateProductRequest extends FormRequest
+class StoreProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +22,14 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ['nullable', 'string', 'max:255'],
-            "sku" => ['nullable', 'string', 'max:100', Rule::unique('products', 'sku')->ignore($this->product)],
-            "category" => ['nullable', 'string', 'exists:categories,name'],
-            'description' => ['nullable', 'string', 'min:10'],
-            'price' => ['nullable', 'numeric', 'min:0'],
+            "name" => ['required', 'string', 'max:255'],
+            "sku" => ['required', 'string', 'max:100', 'unique:products,sku'],
+            "category" => ['required', 'string', 'exists:categories,name'],
+            'description' => ['required', 'string', 'min:10'],
+            'price' => ['required', 'numeric', 'min:0'],
             'tax_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'packaging' => ['nullable', 'string', 'max:100'],
-            'unit' => ['nullable', 'string'],
+            'unit' => ['required', 'string'],
             'min_order_quantity' => ['nullable', 'integer', 'min:1'],
             'reorder_level' => ['nullable', 'integer', 'min:1'],
         ];

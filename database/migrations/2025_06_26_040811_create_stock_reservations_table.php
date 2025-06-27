@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('warehouse_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('order_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('reserved_by')->constrained('customers')->cascadeOnDelete();
             $table->integer('quantity');
             $table->enum('status', ['reserved', 'released'])->default('reserved');

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\CustomersController;
 use App\Http\Controllers\Api\ProductsController;
+use App\Http\Controllers\Api\StockTransferController;
+use App\Http\Controllers\Api\WarehousesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +23,15 @@ Route::controller(ProductsController::class)->prefix('products')->group(function
 
 Route::apiResource('products', ProductsController::class);
 Route::apiResource('customers', CustomersController::class);
+
+Route::controller(WarehousesController::class)->group(function () {
+    Route::get('/warehouses', 'index');
+    Route::get('/warehouses/{warehouse}/inventory', 'inventory');
+});
+
+Route::controller(StockTransferController::class)->group(function () {
+    Route::post('/stock-transfers', 'transfer');
+    Route::get('/stock-transfers', 'history');
+});
+
+

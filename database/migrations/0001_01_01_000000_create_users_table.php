@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('password');
             $table->enum('status', ['active', 'inactive', 'banned']);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 

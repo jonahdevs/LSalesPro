@@ -29,8 +29,20 @@ class ProductsResource extends JsonResource
                 "reorder_level" => $this->reorder_level,
             ],
             'relationships' => [
-                'subcategory' => $this->whenLoaded('category', fn() => $this->category->name),
-                'category' => $this->whenLoaded('category', fn() => $this->category->parent?->name)
+                "subcategory" => $this->whenLoaded('category', fn() => [
+                    'id' => (string) $this->category->id,
+                    'name' => $this->category->name,
+                ]),
+                'category' => $this->whenLoaded(
+                    'category',
+                    function () {
+                        $parent = $this->category->parent;
+                        return $parent ? [
+                            'id' => (string) $parent->id,
+                            'name' => $parent->name,
+                        ] : null;
+                    }
+                )
             ]
         ];
     }
