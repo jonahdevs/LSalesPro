@@ -124,10 +124,10 @@ class ProductsController extends Controller
 
             // Calculate reserved quantity
             $reservedQty = $product->reservations()
-                ->where('warehouse_id', $validated['warehouse_id'])
-                ->where('status', 'reserved')
-                ->where('expires_at', '>', now())
-                ->sum('quantity');
+                ->where('stocks.warehouse_id', $validated['warehouse_id']) // ✅ scoped to warehouse
+                ->where('stock_reservations.status', 'reserved')
+                ->where('stock_reservations.expires_at', '>', now())
+                ->sum('stock_reservations.quantity');
 
             $availableQuantity = $stock->quantity - $reservedQty;
 
@@ -135,9 +135,10 @@ class ProductsController extends Controller
                 return $this->error(null, "Only {$availableQuantity} units are available for reservation in this warehouse", 422);
             }
 
+            $stock = $product->stock()->where('warehouse_id', $validated['warehouse_id'])->first();
+
             // reserve the stock
-            $product->reservations()->create([
-                'warehouse_id' => $validated['warehouse_id'],
+            $stock->reservations()->create([
                 "reserved_by" => 1,
                 'quantity' => $validated['quantity'],
                 'expires_at' => now()->addMinutes(30),

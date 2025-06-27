@@ -25,7 +25,7 @@ class ProductStockResource extends JsonResource
                 ->where('warehouse_id', $warehouse->id)
                 ->where('expires_at', '>', now())
                 ->where('status', 'reserved')
-                ->sum('quantity');
+                ->sum('stock_reservations.quantity');
 
             return [
                 'id' => $warehouse->id,

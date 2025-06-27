@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class StockReservation extends Model
 {
     protected $fillable = [
-        'product_id',
-        'warehouse_id',
+        'stock_id',
         'reserved_by',
         'quantity',
         'status',
@@ -17,6 +16,11 @@ class StockReservation extends Model
     ];
 
     // relationships
+    public function stock(): BelongsTo
+    {
+        return $this->belongsTo(Stock::class);
+    }
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

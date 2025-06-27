@@ -28,4 +28,8 @@ class Stock extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(StockReservation::class);
+    }
 }

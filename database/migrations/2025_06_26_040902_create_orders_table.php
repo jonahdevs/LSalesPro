@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->decimal('discount_total', 10, 2)->nullable();
             $table->decimal('tax_total', 10, 2)->nullable();
             $table->decimal('total', 10, 2);
+            $table->enum('status', ['pending', 'confirmed', 'processing', 'shipped', 'delivered']);
             $table->text('notes')->nullable();
             $table->timestamps();
         });

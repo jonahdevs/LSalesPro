@@ -30,4 +30,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Territory::class);
     }
+
+    public function getAvailableCreditAttribute(): float
+    {
+        return $this->credit_limit - $this->current_balance;
+    }
 }

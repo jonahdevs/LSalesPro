@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -32,9 +33,12 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function reservations(): HasMany
+    public function reservations(): HasManyThrough
     {
-        return $this->hasMany(StockReservation::class, 'product_id');
+        return $this->hasManyThrough(
+            StockReservation::class,
+            Stock::class,
+        );
     }
 
     // used to track inventory per warehouse

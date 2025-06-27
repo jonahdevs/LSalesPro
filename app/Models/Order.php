@@ -16,7 +16,8 @@ class Order extends Model
         'discount_total',
         'tax_total',
         'total',
-        'notes'
+        'notes',
+        'status'
     ];
 
     // relationships

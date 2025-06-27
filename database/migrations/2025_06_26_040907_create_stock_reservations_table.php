@@ -12,8 +12,7 @@ return new class extends Migration {
     {
         Schema::create('stock_reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('warehouse_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('stock_id')->constrained()->cascadeOnDelete();
             $table->foreignId('order_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('reserved_by')->constrained('customers')->cascadeOnDelete();
             $table->integer('quantity');

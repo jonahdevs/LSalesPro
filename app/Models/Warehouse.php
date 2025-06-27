@@ -21,15 +21,19 @@ class Warehouse extends Model
     ];
 
     // relationships
-    public function stocks()
+
+    public function reservations()
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasManyThrough(
+            StockReservation::class,
+            Stock::class,
+            'product_id',
+            'stock_id',
+            'id',
+            'id'
+        );
     }
 
-    public function reservations(): HasMany
-    {
-        return $this->hasMany(StockReservation::class);
-    }
 
     public function stock(): HasMany
     {
@@ -40,4 +44,6 @@ class Warehouse extends Model
     {
         return $this->stocks()->sum("quantity");
     }
+
+
 }

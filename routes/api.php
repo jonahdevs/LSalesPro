@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CustomersController;
+use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\StockTransferController;
 use App\Http\Controllers\Api\WarehousesController;
@@ -32,6 +33,15 @@ Route::controller(WarehousesController::class)->group(function () {
 Route::controller(StockTransferController::class)->group(function () {
     Route::post('/stock-transfers', 'transfer');
     Route::get('/stock-transfers', 'history');
+});
+
+Route::controller(OrdersController::class)->group(function () {
+    Route::get('orders', 'index')->name('orders.index');
+    Route::get('orders/{order}', 'show')->name('orders.show');
+    Route::post('orders', 'store')->name('orders.store');
+    Route::put('orders/{order}/status', 'update')->name('orders.update');
+    Route::get('orders/{order}/invoice', 'invoice')->name('orders.invoice');
+    Route::post('orders/calculate-total', 'calculateTotal')->name('orders.calculate-total');
 });
 
 
