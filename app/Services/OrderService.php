@@ -25,13 +25,14 @@ class OrderService
         try {
             DB::beginTransaction();
 
+
             $customer = Customer::findOrFail($data['customer_id']);
             $totals = $this->calculateTotals($data);
 
             // Validate credit limit
             $this->validateCreditLimit($customer, $totals['total']);
 
-            // check stock
+            // stock validation
             $this->checkAndReserveStock($data['items']);
 
             // generate order number
@@ -47,6 +48,7 @@ class OrderService
                 'status' => 'pending',
             ]);
 
+            // Create order items
             foreach ($data['items'] as $item) {
                 $product = Product::findOrFail($item['product_id']);
                 $lineTotal = $product->price * $item['quantity'];
@@ -109,7 +111,7 @@ class OrderService
         return compact('subtotal', 'discount', 'tax', 'total');
     }
 
-    public function applyDiscount(float $amount, array $discount): float
+    protected function applyDiscount(float $amount, array $discount): float
     {
         return match ($discount['type']) {
             'percentage' => ($discount['value'] / 100) * $amount,
@@ -160,7 +162,7 @@ class OrderService
 
             StockReservation::create([
                 'stock_id' => $stockWithQuantity->id,
-                'reserved_by' => auth()->id() ?? 1, // default for now
+                'reserved_by' => 1, // default for now
                 'quantity' => $quantity,
                 'expires_at' => now()->addMinutes(30),
                 'status' => 'reserved',

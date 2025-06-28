@@ -14,6 +14,7 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $admin = Role::create(['name' => 'Admin', 'guard_name' => 'sanctum']);
         $salesManager = Role::create(['name' => 'Sales Manager', 'guard_name' => 'sanctum']);
         $salesRepresentative = Role::create(['name' => 'Sales Representative', 'guard_name' => 'sanctum']);
 
@@ -29,6 +30,8 @@ class RoleSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission, 'guard_name' => 'sanctum']);
         }
+
+        $admin->syncPermissions($permissions);
 
         $salesManager->syncPermissions([
             "view_all_sales",

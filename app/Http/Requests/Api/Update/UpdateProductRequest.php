@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\Update;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
@@ -12,7 +13,8 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $user = Auth::guard('sanctum')->user();
+        return $user && $user->hasRole('Admin');
     }
 
     /**

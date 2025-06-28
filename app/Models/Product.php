@@ -50,7 +50,9 @@ class Product extends Model
     public function getAvailableQuantityAttribute(): int
     {
         $total = $this->stock->sum('quantity');
-        $reserved = $this->reservations()->where('status', 'reserved')->sum('quantity');
+        $reserved = $this->reservations()
+            ->where('status', 'reserved')
+            ->sum('stock_reservations.quantity');
 
         return max($total - $reserved, 0);
     }

@@ -17,7 +17,6 @@ class NotificationResource extends JsonResource
         return [
             'id' => (string) $this->id,
             'type' => $this->data['type'] ?? 'notification',
-
             'attributes' => [
                 'title' => $this->data['title'] ?? null,
                 'message' => $this->data['message'] ?? null,
@@ -26,7 +25,6 @@ class NotificationResource extends JsonResource
                 'read_at' => $this->read_at,
                 'created_at' => $this->created_at->toDateTimeString(),
             ],
-
             'meta' => [
                 'read' => (bool) $this->read_at,
                 'is_new' => $this->read_at === null,

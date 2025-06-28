@@ -42,7 +42,7 @@ class Warehouse extends Model
 
     public function totalStockedQuantity()
     {
-        return $this->stocks()->sum("quantity");
+        return $this->stock()->sum("quantity");
     }
 
 

@@ -24,13 +24,14 @@ class ProductsController extends Controller
 
     public function index(Request $request)
     {
+        // filters parameters from the request parameters
         $filters = $request->only(['search', 'category', 'min_price', 'in_stock', 'warehouse', 'sort_by']);
         $query = Product::with('category.parent');
 
         $query = $this->advancedFiltering($query, $filters);
         $products = $query->paginate($request->get('per_page', 10));
 
-        $products = Product::with('category.parent')->paginate(10);
+        $products = Product::with('category.parent')->paginate($request->get('per_page', 10));
         return ProductsResource::collection($products);
     }
 
@@ -78,15 +79,19 @@ class ProductsController extends Controller
 
     public function store(StoreProductRequest $request)
     {
+        // validate the request
         $validated = $request->validated();
 
         try {
+            // Check if the category exists and get its ID
             $category_id = Category::where('name', $validated['category'])->first()?->id ?? null;
 
+            // If category is required and not found, return an error
             if ($validated['category'] && !isset($category_id)) {
                 return $this->error(null, 'Category not found', 422);
             }
 
+            // Create the product
             Product::create([
                 'name' => $validated['name'],
                 'sku' => $validated['sku'],
@@ -102,21 +107,25 @@ class ProductsController extends Controller
 
             return $this->success(null, 'Product created successfully');
         } catch (\Throwable $th) {
+            // Log the error for debugging
             return $this->error(null, 'Failed to create product', 500);
         }
     }
 
     public function show(Product $product)
     {
+        // Load the product with its category and parent category
         $product->load('category.parent');
         return new ProductsResource($product);
     }
 
     public function update(UpdateProductRequest $request, Product $product)
     {
+        // validate the request
         $validated = $request->validated();
 
         try {
+            // Check if the category exists and get its ID
             if (isset($validated['category'])) {
                 $category_id = Category::where('name', $validated['category'])->first()?->id ?? null;
                 if ($validated['category'] && !isset($category_id)) {
@@ -126,6 +135,7 @@ class ProductsController extends Controller
                 $validated['category_id'] = $category_id;
             }
 
+            // Update the product
             $product->update($validated);
 
             return $this->success(null, 'Product updated successfully');
@@ -137,6 +147,7 @@ class ProductsController extends Controller
 
     public function destroy(Product $product)
     {
+        // delete the product
         $count = $product->delete();
 
         if ($count == 0) {
@@ -148,6 +159,7 @@ class ProductsController extends Controller
 
     public function stock(Product $product)
     {
+        // Load the product with its stock and warehouses
         $product->load([
             'warehouses.stock' => function ($query) use ($product) {
                 $query->where('product_id', $product->id);
@@ -159,14 +171,17 @@ class ProductsController extends Controller
 
     public function reserve(Request $request, Product $product)
     {
+        // Validate the request
         $validated = $request->validate([
             'quantity' => 'required|integer|min:1',
             'warehouse_id' => 'required|exists:warehouses,id',
         ]);
 
         try {
+            // Check if the product has stock in the specified warehouse
             $stock = $product->stock()->where('warehouse_id', $validated['warehouse_id'])->first();
 
+            // If no stock found, return an error
             if (!$stock) {
                 return $this->error(null, 'No stock record found for this warehouse', 404);
             }
@@ -178,12 +193,15 @@ class ProductsController extends Controller
                 ->where('stock_reservations.expires_at', '>', now())
                 ->sum('stock_reservations.quantity');
 
+            // Calculate available quantity
             $availableQuantity = $stock->quantity - $reservedQty;
 
+            // Check if the requested quantity exceeds available stock
             if ($availableQuantity < $validated['quantity']) {
                 return $this->error(null, "Only {$availableQuantity} units are available for reservation in this warehouse", 422);
             }
 
+            // Check if the product has stock in the specified warehouse
             $stock = $product->stock()->where('warehouse_id', $validated['warehouse_id'])->first();
 
             // reserve the stock
@@ -202,21 +220,26 @@ class ProductsController extends Controller
 
     public function release(Request $request, Product $product)
     {
-
+        // Validate the request
         $validated = $request->validate([
             'reservation_id' => 'required|integer|exists:stock_reservations,id',
         ]);
 
         try {
-
+            // Find the reservation for the product
             $reservation = StockReservation::where('id', $validated['reservation_id'])
-                ->where('product_id', $product->id)
+                ->whereHas('stock', function ($query) use ($product) {
+                    $query->where('product_id', $product->id);
+                })
                 ->where('status', 'reserved')
                 ->first();
 
+            // If no reservation found, return an error
             if (!isset($reservation)) {
                 return $this->error(null, 'Active reservation not found for this product.', 404);
             }
+
+            // Check if the reservation has already expired
             $reservation->update(['status' => 'released']);
 
             return $this->success(null, 'Reservation released.', 200);
@@ -228,6 +251,7 @@ class ProductsController extends Controller
 
     public function lowStock()
     {
+        // Fetch all products with their stock and reservations
         $products = Product::with([
             'stock',
             'reservations' => function ($q) {
@@ -235,7 +259,7 @@ class ProductsController extends Controller
             }
         ])->get();
 
-
+        // Filter products with low stock
         $lowStock = $products->filter(fn($p) => $p->available_quantity < $p->reorder_level)->values();
 
         if ($lowStock->isEmpty()) {

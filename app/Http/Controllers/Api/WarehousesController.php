@@ -15,13 +15,13 @@ class WarehousesController extends Controller
 
     public function index(Request $request)
     {
-        $warehouses = Warehouse::withCount('stocks')->get();
+        $warehouses = Warehouse::withCount('stock')->get();
         return WarehousesResource::collection($warehouses);
     }
 
     public function inventory(Warehouse $warehouse)
     {
-        $inventory = $warehouse->stocks()->with('product')->get();
+        $inventory = $warehouse->stock()->with('product')->get();
 
         return WarehouseInventoryResource::collection($inventory);
     }

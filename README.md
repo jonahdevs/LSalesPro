@@ -21,7 +21,7 @@ A comprehensive RESTful API for managing B2B sales workflows including orders, p
 
 ### 1. Clone the Reposity
 
-```Bash
+```Bash ```
 git clone https://github.com/jonahdevs/LSalesPro
 cd LSalesPro
 ---
@@ -115,4 +115,5 @@ composer run dev
 - GET /api/notifications/unread-count  - Unread count ✅
 
 
-### Features
+### Postman collections
+

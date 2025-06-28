@@ -49,3 +49,5 @@ class NotificationsController extends Controller
         return $this->success(null, 'Notification deleted');
     }
 }
+
+
