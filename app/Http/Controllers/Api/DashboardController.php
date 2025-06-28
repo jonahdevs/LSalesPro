@@ -11,10 +11,13 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
+
 
 class DashboardController extends Controller
 {
     //
+
     public function summary(Request $request)
     {
         // Validate the range parameter

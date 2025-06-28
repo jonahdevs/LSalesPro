@@ -6,9 +6,12 @@ use App\Notifications\OrderConfirmation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Order extends Model
 {
+    use LogsActivity;
     //
     protected $fillable = [
         'order_number',
@@ -43,5 +46,11 @@ class Order extends Model
                 $order->customer->notify(new OrderConfirmation($order));
             }
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['order_number', 'status']);
     }
 }

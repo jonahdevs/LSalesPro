@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\StockTransferController;
+use App\Http\Controllers\Api\SystemActivitiesController;
 use App\Http\Controllers\Api\WarehousesController;
 use App\Http\Resources\Api\CurrentUserResource;
 use Illuminate\Http\Request;
@@ -68,4 +69,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('dashboard/inventory-status', 'inventoryStatus')->name('dashboard.inventoryStatus');
         Route::get('dashboard/top-products', 'topProducts')->name('dashboard.topProducts');
     });
+
+    Route::get('system-activities', SystemActivitiesController::class)->name('system.activities');
 });

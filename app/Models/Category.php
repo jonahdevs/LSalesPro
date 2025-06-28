@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Category extends Model
 {
-    //
+    use LogsActivity;
     protected $fillable = [
         'name',
         'slug',
@@ -40,5 +42,10 @@ class Category extends Model
         static::creating(function (self $category) {
             $category->slug = $category->slug ?: Str::slug($category->name, '-');
         });
+    }
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name']);
     }
 }
