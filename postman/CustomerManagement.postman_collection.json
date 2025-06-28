@@ -1,0 +1,432 @@
+{
+	"info": {
+		"_postman_id": "b16e8903-225f-43da-bfdf-6ff250485702",
+		"name": "Customer Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27974383",
+		"_collection_link": "https://red-resonance-680624.postman.co/workspace/LSalesPro~e6996e3d-4009-48e6-8223-94578a6777e4/collection/27974383-b16e8903-225f-43da-bfdf-6ff250485702?action=share&source=collection_link&creator=27974383"
+	},
+	"item": [
+		{
+			"name": "Customers List",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/customers",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/customers/1",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"customers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Quick Auto Services Ltd",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "Garage",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "A",
+							"type": "text"
+						},
+						{
+							"key": "contact_person",
+							"value": "John Mwangi",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "+254 712 345678",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "info@quickautoservices.co.ke",
+							"type": "text"
+						},
+						{
+							"key": "tax_id",
+							"value": "P051234567Q",
+							"type": "text"
+						},
+						{
+							"key": "payment_terms",
+							"value": "30",
+							"type": "text"
+						},
+						{
+							"key": "credit_limit",
+							"value": "500000.00",
+							"type": "text"
+						},
+						{
+							"key": "current_balance",
+							"value": "120000.00",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "-1.319370",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "36.824120",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Mombosa Road, Auto Plaze Building, Nairobi",
+							"type": "text"
+						},
+						{
+							"key": "territory",
+							"value": "Thika",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://LSalesPro.test/api/customers",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "contact_person",
+							"value": "Jonah Wakahiu",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://LSalesPro.test/api/customers/1",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"customers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/customers/1",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"customers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order History",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/customers/1/orders",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"customers",
+						"1",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Credit Limit and balance",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/customers/1/credit-status",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"customers",
+						"1",
+						"credit-status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Locations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/customers/map-data",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"customers",
+						"map-data"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

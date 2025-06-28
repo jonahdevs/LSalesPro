@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "437293e6-c4e9-419a-993e-a04947af0bf7",
+		"name": "DashboardAnalytics",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27974383",
+		"_collection_link": "https://red-resonance-680624.postman.co/workspace/LSalesPro~e6996e3d-4009-48e6-8223-94578a6777e4/collection/27974383-437293e6-c4e9-419a-993e-a04947af0bf7?action=share&source=collection_link&creator=27974383"
+	},
+	"item": [
+		{
+			"name": "Overall Sales",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/dashboard/summary",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"dashboard",
+						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sales Performance",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/dashboard/sales-perfomance",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"dashboard",
+						"sales-perfomance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inventory Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/dashboard/inventory-status",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"dashboard",
+						"inventory-status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top 5 Selling products",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/dashboard/top-products",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"dashboard",
+						"top-products"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,259 @@
+{
+	"info": {
+		"_postman_id": "cc0912ae-d8aa-4575-a832-d65bc83b99af",
+		"name": "Sales Order Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27974383",
+		"_collection_link": "https://red-resonance-680624.postman.co/workspace/LSalesPro~e6996e3d-4009-48e6-8223-94578a6777e4/collection/27974383-cc0912ae-d8aa-4575-a832-d65bc83b99af?action=share&source=collection_link&creator=27974383"
+	},
+	"item": [
+		{
+			"name": "Orders List",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/orders",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/orders/1",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"orders",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customer_id\": 1,\r\n  \"items\": [\r\n    {\r\n      \"product_id\": 2,\r\n      \"quantity\": 20,\r\n      \"discount\": {\r\n        \"type\": \"percentage\",\r\n        \"value\": 10\r\n      }\r\n    }\r\n  ],\r\n  \"order_discount\": {\r\n    \"type\": \"fixed\",\r\n    \"value\": 100\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://LSalesPro.test/api/orders",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"status\": \"cancelled\",\r\n  \"remarks\": \"Order approved by manager and moved to processing.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://LSalesPro.test/api/orders/1/status",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"orders",
+						"1",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate invoice",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://LSalesPro.test/api/orders/1/invoice",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"orders",
+						"1",
+						"invoice"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preview order calculations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://LSalesPro.test/api/orders/calculate-total",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"orders",
+						"calculate-total"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "6d9159eb-b7a6-4dfd-b30a-d62a5294a1ec",
+		"name": "Notification Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27974383",
+		"_collection_link": "https://red-resonance-680624.postman.co/workspace/LSalesPro~e6996e3d-4009-48e6-8223-94578a6777e4/collection/27974383-6d9159eb-b7a6-4dfd-b30a-d62a5294a1ec?action=share&source=collection_link&creator=27974383"
+	},
+	"item": [
+		{
+			"name": "User Notification",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/notifications",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"notifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark as read",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://LSalesPro.test/api/notifications/1/read",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"notifications",
+						"1",
+						"read"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark all as read",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/notifications/read-all",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"notifications",
+						"read-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete notification",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/notifications/1",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"notifications",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unread count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SANCTUM_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://LSalesPro.test/api/notifications/unread-count",
+					"protocol": "http",
+					"host": [
+						"LSalesPro",
+						"test"
+					],
+					"path": [
+						"api",
+						"notifications",
+						"unread-count"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

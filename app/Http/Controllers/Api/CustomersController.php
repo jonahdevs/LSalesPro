@@ -19,6 +19,7 @@ class CustomersController extends Controller
 
     public function index()
     {
+        // Fetch all customers with pagination
         $customers = Customer::paginate(10);
         return CustomersResource::collection($customers);
     }
@@ -28,12 +29,15 @@ class CustomersController extends Controller
         $validated = $request->validated();
 
         try {
+            // Check if territory exists and get its ID
             $territory_id = Territory::where('name', $validated['territory'])->first()?->id ?? null;
 
+            // If territory is provided but not found, return an error
             if ($validated['territory'] && !isset($territory_id)) {
                 return $this->error(null, 'Territory not found', 422);
             }
 
+            // Create the customer with validated data
             Customer::create([
                 'name' => $validated['name'],
                 'type' => $validated['type'],
@@ -64,18 +68,22 @@ class CustomersController extends Controller
 
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
+        // Validate the request data
         $validated = $request->validated();
 
         try {
+            // Check if territory exists and get its ID
             if (isset($validated['territory'])) {
                 $territory_id = Territory::where('name', $validated['territory'])->first()?->id ?? null;
 
+                // If territory is provided but not found, return an error
                 if ($validated['territory'] && !isset($territory_id)) {
                     return $this->error(null, 'Territory not found', 422);
                 }
                 $validated['territory_id'] = $territory_id;
             }
 
+            // Update the customer with validated data
             $customer->update($validated);
 
             return $this->success(null, 'Customer updated successfully');
@@ -87,6 +95,7 @@ class CustomersController extends Controller
 
     public function destroy(Customer $customer)
     {
+        // delete the customer
         $count = $customer->delete();
 
         if ($count == 0) {
@@ -98,6 +107,7 @@ class CustomersController extends Controller
 
     public function orderHistory(Customer $customer)
     {
+        // Load the customer's orders and their items
         $customer->load('orders.items');
 
         return new customerOrdersResource($customer);
@@ -105,6 +115,7 @@ class CustomersController extends Controller
 
     public function creditStatus(Customer $customer)
     {
+        // Calculate the total used credit from pending, confirmed, and processing orders
         $totalUsed = $customer->orders()
             ->whereIn('status', ['pending', 'confirmed', 'processing'])
             ->sum('total');
@@ -119,6 +130,7 @@ class CustomersController extends Controller
 
     public function mapData()
     {
+        // Fetch customers with latitude and longitude, along with their territory
         $customers = Customer::select('id', 'name', 'latitude', 'longitude', 'territory_id')
             ->with('territory')
             ->whereNotNull('latitude')

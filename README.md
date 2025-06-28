@@ -27,6 +27,7 @@ cd LSalesPro
 ---
 
 
+---
 ### 2. Install Dependencies
 composer install
 
@@ -36,11 +37,15 @@ copy .env.example .env
 --- generate key
 php artisan key:generate
 
+---
+
 ### 3. Set up database
 - Set your database values in the .env file
 DB_DATABASE=lsalespro
 DB_USERNAME=root
 DB_PASSWORD=secret
+
+---
 
 ### 4. Run Migrations and Seeder
 php artisan migrate
@@ -52,68 +57,286 @@ php artisan db:seed
 php artisan serve
 composer run dev
 
+----
 
-# API MODULES
-### Authentication and Users
-- Post /api/auth/login ✅
-- Post /api/auth/register ✅
+
+----
+
+# API Authentication
+## Authentication and Users
+All API routes (except login / register) are protected using **Laravel Sanctum**
+
+### To Authenticate
+   ** You can import this [Postman Collection](./postman/Authentication.postman_collection.json) to test the API endpoints
+
+1. Send a POST request to `/api/auth/login` with email and password
+  -- for testing use 'admin@example.com' as email and 'password' as password
+2. You'll receive a token in the response
+    ```
+    {
+    "success": "",
+    "message": "",
+    "data": {
+        "user": {},
+        "token": "XXXXXXXXXXXXXXXXXXXXXXX"
+    }
+    ```
+3. Include this token  in the `Authorization' header
+    ```
+    Authorization: Bearer your_access_toke
+    ```
+    NOTE:: All subsequest requests must include this toke
+
+    - In Authentication you can perform actions such as refresh token, login, logout, forgot password and password reset.
+    - All the authetication routes start with api/auth
+     * /api/auth/login
+     * /api/auth/logout
+     * /api/auth/refresh
+     * /api/auth/user
+     * /api/auth/password/forgot
+     * /api/auth/password/reset
+----
+
+
+----
 
 
 ## Dashboard Management
-- GET /api/dashboard/summary  - 
-    -- total sales amount ✅
-    -- Number of orders ✅
-    -- Average order value ✅
-    -- inventory turnover rate 🔃
-- put /api/dashboard/sales-perfomance - Sales data with date filtering ✅
-- put /api/dashboard/inventory-status - Category-wise inventory summary ✅
-- put /api/dashboard/top-products - Top 5 selling products ✅
+  ** You can import this [Postman Collection](./postman/DashboardAnalytics.postman_collection.json) to test the API endpoints
 
-### Customer Management
-- GET /api/customers  - it lists all customer and also it accept filters as query parameters ✅
-- GET /api/customers/{id} - single customer details ✅
-- POST /api/customers  - Create customer using form Data, ✅
-- PUT /api/customers/{id}  - Updates customer details using form Data, ✅
-- Delete /api/customers  - Soft Deletes our customer from the system ✅
-- POST /api/customers/{id}/orders  - Customer Order history ✅
-- Post /api/customers/{id}/credit-status - Customer credit limit and balance  ✅
-- Post /api/customers/map-data - Customer locations for mapping ✅
+    - The Dashboard Api provides real-time business intelligence insighrs to help sales manager, inventory controllers, and admins track and analyze key performance metrics across the platform
 
+* GET /api/dashboard/summary
+    - Returns a summary of key perfomance indicatorss 
+    - example response json
+        {
+            "total_sales": "93844.00",
+            "order_count": 1,
+            "average_order_value": 93844,
+            "inventory_turnover_rate": 0.06
+        }
+* GET /api/dashboard/saes-perfomance
+    - Returns a filtered breakdown of sales over time, ideal for graphing trends.
+    -example response json 
+        {
+            "labels": [
+                "2025-06-28"
+            ],
+            "data": [
+                "93844.00"
+            ]
+        }
+* GET /api/dashboard/inventory-summary
+    - Returns a summary of inventory grouped by product category, helping teams assess stock distribution.
+    - example response json
+        [
+            {
+                "category": "Mineral Oils",
+                "available_stock": 98,
+                "products_count": 1
+            },
+            {
+                "category": "Synthetic Oils",
+                "available_stock": 145,
+                "products_count": 1
+            }
+        ]
+* GET  /api/dashboard/top-products
+    - Returns the top 5 selling products based on quantity sold within a time range.
+    - example response json
+        [
+            {
+                "name": "SuperFuel Max 20W-50",
+                "sold": "12"
+            },
+            {
+                "name": "EcoDrive Synthetic 5W-30",
+                "sold": "5"
+            }
+        ]
+
+NOTE:: The data being controller can be filtered using a date range default is one month
+
+---- 
+
+
+----
+
+## Customer Management
+  ** You can import this [Postman Collection](./postman/CustomerManagement.postman_collection.json) to test the API endpoints
+
+
+* GET /api/customers  
+    - it lists all customer and also it accept filters as query parameters 
+    - example response json 
+        {
+                "data": [
+                    {
+                        "id": "1",
+                        "attributes": {
+                            "name": "",
+                            "email": "",
+                            "phone": "",
+                            ***
+                        }
+                    },
+                ],
+                "links": {
+                    "first": "xxxxxxxxxxxxxxxxxxxxx",
+                    "last": "xxxxxxxxxxxxxxxxxxxxx",
+                    "prev": null,
+                    "next": null
+                },
+                "meta": {
+                    "current_page": 1,
+                    "from": 1,
+                    "last_page": 1,
+                    "links": [
+                        {
+                            "url": null,
+                            "label": "&laquo; Previous",
+                            "active": false
+                        },
+                        {
+                            "url": "xxxxxxxxxxxxxxxxxxxxx",
+                            "label": "1",
+                            "active": true
+                        },
+                        {
+                            "url": null,
+                            "label": "Next &raquo;",
+                            "active": false
+                        }
+                    ],
+                    "path": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+                    "per_page": 10,
+                    "to": 2,
+                    "total": 2
+                }
+            }
+
+* GET /api/customers/{id} 
+    - single customer details 
+    - example response json
+     {
+        "data": {
+            "id": "1",
+            "attributes": {
+                "name": "",
+                "email": "i",
+                "phone": "",
+            }
+        }
+    }
+
+
+* POST /api/customers  
+    - Create customer using form Data, 
+* PUT /api/customers/{id}  
+    - Updates customer details using form Data, 
+* Delete /api/customers  
+    - Soft Deletes our customer from the system 
+* POST /api/customers/{id}/orders  
+    - Customer Order history 
+* Post /api/customers/{id}/credit-status 
+    - Customer credit limit and balance  
+* Post /api/customers/map-data 
+    - Customer locations for mapping 
+
+----
+
+
+----
 
 ## Inventory Management
-- GET /api/products  - it lists all products and also it accept filters as query parameters ✅
-- GET /api/products/{id} - single product details ✅
-- POST /api/products  - Create product using form Data, ✅
-- PUT/PATCH /api/products/{id}  - Updates product details using form Data, ✅
-- Delete /api/products  - Soft Deletes product from the system ✅
-- GET /api/products/{id}/stock  - Real time stock across warehouse ✅
-- POST /api/products/{id}/reserve - Reserve stock for order  ✅
-- POST /api/products/{id}/release - release reserved stock  ✅
-- GET /api/products/low-stock - products below reorder level ✅
+  ** You can import this [Postman Collection](./postman/InventoryManagement.postman_collection.json) to test the API endpoints
 
+
+* GET /api/products  
+    - it lists all products and also it accept filters as query parameters 
+* GET /api/products/{id} 
+    - single product details 
+* POST /api/products  
+    - Create product using form Data, 
+* PUT/PATCH /api/products/{id}  
+    - Updates product details using form Data, 
+* Delete /api/products  
+    - Soft Deletes product from the system 
+* GET /api/products/{id}/stock  
+    - Real time stock across warehouse 
+* POST /api/products/{id}/reserve 
+    - Reserve stock for order  
+* POST /api/products/{id}/release 
+    - release reserved stock  
+* GET /api/products/low-stock 
+    - products below reorder level 
+
+----
+
+----
 
 ## Sales Order Management
-- GET /api/orders  - it lists all orders and also it accept filters as query parameters ✅
-- GET /api/orders/{id} - single order details ✅
-- POST /api/orders  - Create new order using form Data, ✅
-- PUT /api/orders/{id}/status  - Updates order status using form Data, ✅
-- GET /api/orders/invoice  - Soft Deletes order from the system 🔃
-- POST /api/orders/calculate-total  - Preview order calculations 🔃
+  ** You can import this [Postman Collection](./postman/SaleOrderManagement.postman_collection.json) to test the API endpoints
+
+* GET /api/orders  
+    - it lists all orders and also it accept filters as query parameters 
+* GET /api/orders/{id} 
+    - single order details 
+* POST /api/orders  
+    - Create new order using form Data, 
+* PUT /api/orders/{id}/status  
+    - Updates order status using form Data, 
+* GET /api/orders/invoice  
+    - Soft Deletes order from the system 🔃
+* POST /api/orders/calculate-total  
+    - Preview order calculations 🔃
+
+
+----
+
+----
 
 ## Warehouse Management
-- GET /api/warehouses  - it lists all warehouses  ✅
-- GET /api/warehouses/{id}/inventory - Warehouse specific inventory ✅
-- POST /api/stock-transfers  - Transfer stock between warehouses ✅
-- GET /api/stock-transfer  - Transfer history ✅
+  ** You can import this [Postman Collection](./postman/WarehouseManagement.postman_collection.json) to test the API endpoints
 
+* GET /api/warehouses  
+    - it lists all warehouses  
+* GET /api/warehouses/{id}/inventory 
+    - Warehouse specific inventory 
+* POST /api/stock-transfers  
+    - Transfer stock between warehouses 
+* GET /api/stock-transfer  
+    - Transfer history 
+
+
+----
+
+
+----
 
 ## Notifications Management
-- GET /api/notifications  - it lists all warehouses  ✅
-- put /api/notifications/{id}/read - Marks a specific notification as read ✅
-- put /ape/notifications/read-all  - Mark all as read ✅
-- DELETE /api/notifications/{id}  - Delete specific notification ✅
-- GET /api/notifications/unread-count  - Unread count ✅
+  ** You can import this [Postman Collection](./postman/NotificationApi.postman_collection.json) to test the API endpoints
 
 
-### Postman collections
+* GET /api/notifications  
+    - it lists all warehouses  
+* put /api/notifications/{id}/read 
+    - Marks a specific notification as read 
+* put /ape/notifications/read-all  
+    - Mark all as read 
+* DELETE /api/notifications/{id}  
+    - Delete specific notification 
+* GET /api/notifications/unread-count  
+    - Unread count 
 
+----
+
+
+----
+### System Activities
+  ** You can import this [Postman Collection](./postman/SystemActivities.postman_collection.json) to test the API endpoints
+
+* Get /api/system-activities
+    - dumps all activities happening in our system
+
+----
